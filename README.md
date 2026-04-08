@@ -1,6 +1,6 @@
 # SurfAgent Skills
 
-Agent skills for [SurfAgent](https://surfagent.app) — the desktop AI browser agent.
+Canonical public skills repo for [SurfAgent](https://surfagent.app) — the desktop AI browser agent.
 
 Install via [ClawHub](https://clawhub.ai):
 
@@ -31,6 +31,12 @@ X/Twitter-specific workflow skill with proof rules, blocker handling, and adapte
 
 ### 📈 [tradingview](./tradingview/)
 TradingView-specific chart workflow skill for symbols, timeframes, visual proof, alerts, drawings, and adapter-first usage.
+
+## Repo Ownership
+
+- **`surfagent-skills`**: canonical public skills repo
+- **`surfagent-docs`**: canonical public docs repo
+- **`surfagent-skill`**: legacy compatibility repo for older install paths only
 
 ## Requirements
 
