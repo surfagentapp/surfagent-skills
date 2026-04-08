@@ -1,48 +1,96 @@
 # SurfAgent Skills
 
-Canonical public skills repo for [SurfAgent](https://surfagent.app) — the desktop AI browser agent.
+Canonical public skills catalog for [SurfAgent](https://surfagent.app).
 
-Install via [ClawHub](https://clawhub.ai):
+This repo exists for one job: reusable skill instructions that make AI agents operate the SurfAgent browser better.
 
+If you are new to SurfAgent, do not start by cloning every repo.
+
+Start with:
+1. install the SurfAgent app
+2. connect `surfagent-mcp`
+3. add skills from this repo only when you want better workflows or operating discipline
+
+Docs:
+- <https://github.com/surfagentapp/surfagent-docs/blob/main/docs/start-here.md>
+- <https://github.com/surfagentapp/surfagent-docs/blob/main/docs/mcp-server.md>
+- <https://github.com/surfagentapp/surfagent-docs/blob/main/docs/skills-and-adapters.md>
+
+## What skills are
+
+Skills are not the browser tool layer.
+
+They are instructions and operating patterns that help an AI agent:
+- choose the right tool path
+- avoid dumb browser mistakes
+- use fewer tokens
+- gather proof before claiming success
+- handle site-specific workflows more reliably
+
+If you want raw browser control, use `surfagent-mcp`.
+If you want site-native verbs, use an adapter repo.
+If you want the agent to operate better, use skills.
+
+## Recommended install flow
+
+### ClawHub
 ```bash
 npx clawhub@latest install surfagent-browser
 npx clawhub@latest install surfagent-perception
 ```
 
-## Skills
+Add more only when you need them.
 
-### 🌐 [surfagent-browser](./surfagent-browser/)
-Control a real Chrome browser from your AI agent. Navigate, click, type, fill forms, extract content, manage tabs, and automate workflows.
+### Manual use
+Browse the folders in this repo and pull in the skills that match your workflow.
 
-### 👁️ [surfagent-perception](./surfagent-perception/)
-Agent vision for web pages. Scene summaries, attention-ranked elements, annotated screenshots with numbered bounding boxes, and state diffing.
+## Current skills
 
-### 🧭 [browser-operations](./browser-operations/)
-Core browser operating discipline for SurfAgent, including tab hygiene, tool-choice ladder, token efficiency, and proof rules.
+### `surfagent-browser`
+Core browser skill for controlling the SurfAgent browser.
 
-### ✉️ [gmail](./gmail/)
-Gmail-specific operating skill covering compose, send, Sent verification, blockers, and when to prefer the Gmail adapter over raw browser control.
+### `surfagent-perception`
+Page understanding and perception support, including scene summaries and state-aware observation.
 
-### 🧩 [surfagent-mcp-selection](./surfagent-mcp-selection/)
-Tool-selection guide for choosing between perception, platform adapters, MCP, and raw browser control.
+### `browser-operations`
+Execution discipline for real browser work: tab hygiene, proof rules, tool-choice ladder, short autonomy loops, and token efficiency.
 
-### 𝕏 [x](./x/)
-X/Twitter-specific workflow skill with proof rules, blocker handling, and adapter-first guidance.
+### `gmail`
+Gmail workflow skill for compose, send, Sent verification, blockers, and proof-aware execution.
 
-### 📈 [tradingview](./tradingview/)
-TradingView-specific chart workflow skill for symbols, timeframes, visual proof, alerts, drawings, and adapter-first usage.
+### `surfagent-mcp-selection`
+Decision guide for when to use perception, adapters, MCP, or raw browser control.
 
-## Repo Ownership
+### `x`
+X-specific workflow skill for posting, extraction, blocker handling, and adapter-first execution.
 
-- **`surfagent-skills`**: canonical public skills repo
-- **`surfagent-docs`**: canonical public docs repo
-- **`surfagent-skill`**: legacy compatibility repo for older install paths only
+### `tradingview`
+TradingView workflow skill for charts, symbols, timeframes, alerts, and visual verification.
+
+## Repo map
+
+- `surfagent-docs` = canonical public docs
+- `surfagent-skills` = canonical public skills catalog
+- `surfagent-skill` = legacy compatibility repo for older install paths
+- adapter repos = site-specific tool surfaces like Gmail, Telegram Web, X, TradingView, and Discord
+
+## What most users actually need
+
+Usually:
+- the SurfAgent app
+- `surfagent-mcp`
+- maybe 1 or 2 skills
+
+Not usually:
+- every adapter repo
+- every skill
+- the legacy `surfagent-skill` repo
 
 ## Requirements
 
-- [SurfAgent](https://surfagent.app) running on your desktop (Windows)
-- Daemon API on port 7201
-- Managed Chrome on port 9222
+- [SurfAgent](https://surfagent.app) running on your desktop
+- SurfAgent daemon available
+- a client that can use skills and/or MCP
 
 ## License
 
