@@ -1,7 +1,7 @@
 ---
 name: gmail
-description: Gmail platform skill for SurfAgent, covering inbox state, compose flows, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
-version: 1.0.0
+description: Gmail platform skill for SurfAgent, covering mailbox checks, compose and reply task runners, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
+version: 1.1.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -16,21 +16,23 @@ This skill teaches agents how to work Gmail without guessing at selectors, lying
 
 ## 1. Use this skill for
 
-- inbox and mailbox state checks
+- inbox, spam, sent, drafts, and outbox-style mailbox checks
 - compose flows
+- reply flows inside opened threads
 - draft filling
 - send verification
-- Sent Mail verification
+- Sent Mail and in-thread reply verification
 - Gmail-specific blockers and recoveries
 - deciding when to use the Gmail adapter instead of raw browser control
 
 ## 2. Tool preference
 
 Use this order:
-1. Gmail adapter state tools
-2. Gmail adapter compose tools
-3. targeted browser evaluation only when needed
-4. raw generic browser actions as fallback
+1. Gmail deterministic task runners
+2. Gmail adapter state tools
+3. Gmail adapter compose/reply tools
+4. targeted browser evaluation only when needed
+5. raw generic browser actions as fallback
 
 Prefer Gmail-native verbs over rediscovering Gmail from scratch every run.
 
@@ -49,15 +51,13 @@ Important: Gmail enforces Trusted Types in places, so direct `innerHTML` approac
 ## 4. Core Gmail loop
 
 Default loop:
-1. confirm current Gmail state
-2. open compose if needed
-3. verify compose fields exist
-4. fill draft fields
-5. verify draft values
-6. send
-7. verify send confirmation
-8. open Sent Mail or sent thread
-9. verify rendered result
+1. confirm current Gmail state or mailbox
+2. choose the narrowest deterministic Gmail task runner that fits
+3. verify the target surface is real
+4. fill or extract only what the task needs
+5. verify draft, mailbox, or thread state
+6. send only when requested
+7. verify the visible result with mailbox/thread proof
 
 ## 5. Verified compose flow
 
@@ -122,11 +122,19 @@ Current Gmail adapter verbs:
 - `gmail_get_state`
 - `gmail_open_label`
 - `gmail_extract_visible_threads`
+- `gmail_open_visible_thread_row`
+- `gmail_get_open_message`
 - `gmail_open_compose`
+- `gmail_open_reply`
 - `gmail_get_composer_state`
 - `gmail_fill_compose_draft`
 - `gmail_send_compose`
 - `gmail_open_sent`
+
+Deterministic Gmail task runners:
+- `gmail_compose_and_send_task`
+- `gmail_reply_and_send_task`
+- `gmail_check_mailbox_task`
 
 ## 9. When raw browser control is still acceptable
 
@@ -134,6 +142,7 @@ Use targeted evaluate or browser control when:
 - you need render-only verification not yet wrapped by the adapter
 - you need a one-off Gmail UI probe
 - the adapter is missing a narrow site action
+- Gmail has drifted into an odd hydration state and you need a focused diagnosis before changing the adapter
 
 Even then:
 - keep calls targeted
@@ -144,12 +153,14 @@ Even then:
 
 Watch for:
 - compose dialog not actually open
+- inline reply surface behaving differently from full compose
 - wrong mailbox or label state
 - stale draft surface
 - editor accepting text differently than expected
 - send button present but not truly actionable
 - rich formatting lost in final render
 - account/login mismatch
+- multiple Gmail tabs causing verification to read the wrong surface
 
 When blocked:
 - restate the blocker plainly
@@ -159,6 +170,7 @@ When blocked:
 ## 11. Token-efficiency rules for Gmail
 
 Prefer:
+- task runners over hand-built action chains
 - state checks over full page reads
 - compose-state inspection over broad DOM dumps
 - visible thread extraction over giant inbox scraping
@@ -174,8 +186,8 @@ Avoid:
 Before claiming a Gmail task done, confirm:
 - correct account
 - correct mailbox or thread
-- compose or target surface is real
-- intended values are present
+- compose, reply, or mailbox surface is real
+- intended values or extracted rows are present
 - send or action actually happened
 - resulting message or state is visible afterward
 
