@@ -61,6 +61,12 @@ Gmail workflow skill for compose, send, Sent verification, blockers, and proof-a
 ### `surfagent-mcp-selection`
 Decision guide for when to use perception, adapters, MCP, or raw browser control.
 
+### `telegram-web`
+Telegram Web workflow skill for chat state, composer flows, send verification, and adapter-first execution.
+
+### `discord`
+Discord workflow skill for route-aware state checks, blocker handling, extraction-first execution, and adapter-first decisions.
+
 ### `x`
 X-specific workflow skill for posting, extraction, blocker handling, and adapter-first execution.
 
