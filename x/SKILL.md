@@ -195,5 +195,6 @@ Before claiming an X task done, confirm:
 
 Use alongside:
 - `browser-operations` for universal browser rules
+- `x-engagement` when the goal is audience growth, founder-style replies, and community participation
 - SurfAgent skill for managed Chrome discipline
 - X adapter docs for the concrete MCP/tool surface

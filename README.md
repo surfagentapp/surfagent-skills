@@ -70,6 +70,9 @@ Discord workflow skill for route-aware state checks, blocker handling, extractio
 ### `x`
 X-specific workflow skill for posting, extraction, blocker handling, and adapter-first execution.
 
+### `x-engagement`
+Growth-oriented X engagement skill for founder-style replies, community participation, audience-building loops, and proof-aware engagement.
+
 ### `tradingview`
 TradingView workflow skill for charts, symbols, timeframes, alerts, and visual verification.
 
