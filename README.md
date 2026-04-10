@@ -56,7 +56,7 @@ Page understanding and perception support, including scene summaries and state-a
 Execution discipline for real browser work: tab hygiene, proof rules, tool-choice ladder, short autonomy loops, and token efficiency.
 
 ### `gmail`
-Gmail workflow skill for mailbox checks, compose and reply task runners, send verification, blockers, and proof-aware execution.
+Gmail workflow skill for mailbox checks, latest-thread opening, compose and reply task runners, tab hygiene, send verification, blockers, and proof-aware execution.
 
 ### `surfagent-mcp-selection`
 Decision guide for when to use perception, adapters, MCP, or raw browser control.

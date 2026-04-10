@@ -1,7 +1,7 @@
 {
   "name": "gmail",
-  "version": "1.1.0",
-  "description": "Gmail platform skill for SurfAgent, covering mailbox checks, compose and reply task runners, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.",
+  "version": "1.2.0",
+  "description": "Gmail platform skill for SurfAgent, covering mailbox checks, latest-thread opening, compose and reply task runners, tab hygiene, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.",
   "author": "MoonstoneLabs",
   "keywords": ["gmail", "surfagent", "browser", "automation", "email", "mcp"],
   "files": ["SKILL.md"]

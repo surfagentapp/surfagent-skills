@@ -1,7 +1,7 @@
 ---
 name: gmail
-description: Gmail platform skill for SurfAgent, covering mailbox checks, compose and reply task runners, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
-version: 1.1.0
+description: Gmail platform skill for SurfAgent, covering mailbox checks, latest-thread opening, compose and reply task runners, tab hygiene, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
+version: 1.2.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -17,6 +17,7 @@ This skill teaches agents how to work Gmail without guessing at selectors, lying
 ## 1. Use this skill for
 
 - inbox, spam, sent, drafts, and outbox-style mailbox checks
+- deterministic latest-thread opening from a mailbox view
 - compose flows
 - reply flows inside opened threads
 - draft filling
@@ -135,6 +136,7 @@ Deterministic Gmail task runners:
 - `gmail_compose_and_send_task`
 - `gmail_reply_and_send_task`
 - `gmail_check_mailbox_task`
+- `gmail_open_latest_thread_task`
 
 ## 9. When raw browser control is still acceptable
 
@@ -162,6 +164,8 @@ Watch for:
 - account/login mismatch
 - multiple Gmail tabs causing verification to read the wrong surface
 
+Current adapter rule: Gmail task runners should enforce tab hygiene and collapse duplicate Gmail tabs down to one working tab when they take control of the surface.
+
 When blocked:
 - restate the blocker plainly
 - say whether it is adapter-fixable, retryable, or human-blocked
@@ -186,10 +190,11 @@ Avoid:
 Before claiming a Gmail task done, confirm:
 - correct account
 - correct mailbox or thread
-- compose, reply, or mailbox surface is real
+- compose, reply, mailbox, or opened-thread surface is real
 - intended values or extracted rows are present
 - send or action actually happened
 - resulting message or state is visible afterward
+- duplicate Gmail tabs were not left behind by the workflow
 
 ## 13. Relationship to other docs
 
