@@ -1,7 +1,7 @@
 ---
 name: x-engagement
 description: Growth-oriented X engagement skill for SurfAgent, covering founder-style replies, community participation, audience-building loops, and proof-aware engagement execution.
-version: 1.0.0
+version: 1.2.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -66,13 +66,33 @@ Do not write like:
 
 Default ladder:
 1. identify the right conversation
-2. classify whether a like, reply, or quote-post is best
-3. write the smallest genuinely useful response
-4. post it
-5. verify it landed
-6. revisit later for follow-up if the thread develops
+2. confirm the active account is the intended one for this pass
+3. classify whether a like, reply, or quote-post is best
+4. act from the current feed or thread surface if the target is already visible
+5. write the smallest genuinely useful response
+6. post it
+7. verify it landed
+8. revisit later for follow-up if the thread develops
 
 Use the smallest action that still adds value.
+
+**Default operating rule: feed first, permalink only when needed.**
+
+**Default engagement rule: reply first, repost rarely, like selectively.**
+
+The most common failure mode is doing visible activity instead of useful activity.
+That means:
+- do not spray likes and reposts just because the feed is moving
+- comment when the post is actually relevant and you have something to add
+- repost or quote-post only when the post is genuinely strong and worth amplifying to your own audience
+- if a post is weakly relevant, skip it instead of forcing engagement
+
+If the target post is already visible in the feed, reply/like/repost from there.
+Only open the dedicated post URL when you need one of these:
+- thread context is required
+- the feed item is unstable or partially rendered
+- verification cannot be done safely from the current surface
+- you need exact target isolation after ambiguity
 
 Examples:
 - strong post, no real addition from you -> like only
@@ -97,11 +117,27 @@ High-value targets usually include:
 - questions you can answer from experience
 - posts that create room for a concrete second-order insight
 
+Prioritise posts that overlap with the narrative you want to own.
+For SurfAgent-style founder engagement, that usually means:
+- browser automation in the real world
+- agent reliability and recovery
+- memory, state, and orchestration
+- workflow tooling for builders
+- lessons from shipping, debugging, and dogfooding
+
+If you are running multiple X accounts, pick the account first.
+
+- founder/company-adjacent account = trust, product framing, business narrative
+- operator/agent account = sharper technical takes, experiments, dogfooding, support distribution
+
+Do not start engaging until the active account is verified.
+
 Avoid spending time on:
 - culture-war sludge
 - huge viral threads where your reply adds nothing
 - low-signal bait posts
 - arguments that drain attention without building reputation
+- random posts that are adjacent to AI but not useful for your actual audience
 
 ## 7. What good replies look like
 
@@ -144,6 +180,28 @@ If the account is for a browser automation product, useful recurring themes migh
 - real-world auth/session problems
 - why demos differ from production reality
 
+### Founder engagement rules learned from dogfooding
+
+These are not optional niceties. They are operating rules.
+
+- **Do not comment on the same account over and over in one pass.**
+- Default to **max 1 substantive comment per account per pass**.
+- If one account dominates the feed, do not farm them for easy replies. Move on and diversify.
+- Prefer being seen across a cluster of relevant builders/operators instead of camping one person’s timeline.
+- Likes are supporting signals, not the main event.
+- Reposts are endorsements. Treat them like endorsements.
+- Quote-post only when you have real framing to add for your own audience.
+
+A bad founder pass looks like:
+- multiple comments on the same account
+- random likes on loosely related posts
+- reposting just to seem active
+
+A good founder pass looks like:
+- 3 to 5 thoughtful replies across different relevant accounts
+- maybe 1 repost or quote-post if something is genuinely bullish
+- a clean pattern someone could notice and respect
+
 ## 9. Replying to your own comments and mentions
 
 When someone replies to you:
@@ -161,26 +219,40 @@ Fast, thoughtful second-hop replies are often where trust gets built.
 When the feed is weak, do not doomscroll.
 
 Use a deliberate loop:
-1. search by niche terms, communities, or account clusters
-2. inspect recent posts
-3. choose a small number of promising threads
-4. engage where you have real angle
-5. move on
+1. scan the live feed first for already-visible high-signal targets
+2. if the feed is weak, search by niche terms, communities, or account clusters
+3. inspect recent posts
+4. choose a small number of promising threads
+5. engage where you have real angle
+6. move on
 
 This beats waiting for the perfect post to fall into the timeline.
+
+### Per-pass selection rules
+
+Before replying, quickly check:
+- is this post in the exact lane we want to be known for?
+- can I add a real operator/build lesson?
+- have I already replied to this account in this pass?
+- is a repost actually deserved, or am I just trying to look busy?
+
+If the answer to the last question is "I’m just trying to look busy", skip it.
 
 ## 11. Proof rules
 
 Do not claim engagement success unless you verify:
 - the correct account acted
-- the correct target post was open
+- the correct target post was identified on the current surface
 - the intended like/reply/quote action executed
 - the resulting liked state or visible reply is present
 
 For replies, the minimum proof is:
 - composer held the intended text before submit
 - submit action executed
-- reply text is visible in the thread or post context afterward
+- reply text is visible in the feed, thread, or post context afterward
+
+Do not confuse "more deterministic" with "better".
+Reopening the same permalink over and over is worse than acting from a stable live feed item when the target is already visible.
 
 ## 12. Safety and quality rules
 
@@ -203,6 +275,7 @@ Before finishing an engagement pass, confirm:
 - each reply adds actual value
 - actions were verified
 - no extra tabs were left behind
+- feed-first behavior was used unless there was a real reason to open a permalink
 
 ## 14. Suggested daily operating rhythm
 
@@ -214,7 +287,60 @@ A healthy rhythm usually looks like:
 
 Consistency beats volume.
 
-## 15. Relationship to other docs
+## 15. Founder posting from your own feed
+
+Do not only live in replies.
+A founder account should also post from its own feed so people know what it is building, learning, and shipping.
+
+Good founder posts usually come from one of these buckets:
+- what we shipped today
+- what broke and what we learned fixing it
+- a product insight from dogfooding
+- a sharper take on a pattern seen in the market
+- a before/after improvement in the workflow
+- a lightweight build-in-public update with proof
+
+For SurfAgent-style posting, strong recurring themes include:
+- building browser-aware agents that survive real sessions
+- why memory alone is not enough without state + recovery
+- what dogfooding exposed in the X/browser workflow
+- real examples of brittle automation versus stable operator loops
+- what got improved today in the product or skill stack
+
+### Founder post rules
+
+- post what is real, recent, and earned
+- prefer concrete build notes over vague inspiration
+- one sharp lesson beats a rambling thread
+- screenshots, short demos, or concrete proof help when available
+- do not fake momentum; show actual progress
+- do not turn every post into a launch post
+
+### Simple founder posting cadence
+
+A practical daily cadence is:
+1. make 3 to 5 thoughtful replies across different relevant accounts
+2. publish 1 post from your own feed if there is something real to say
+3. reply back to meaningful responses on your own post
+4. carry the strongest theme into tomorrow’s engagements
+
+### Examples of good founder-feed posts
+
+- "Dogfooding SurfAgent on X today surfaced a dumb failure mode: agents were reopening the same post and spraying tabs. Fixed it by reusing the active X tab and staying feed-first."
+- "Most agent failures people blame on the model are really state failures: expired auth, broken context, bad recovery, poisoned browser state."
+- "Built today: tighter X engagement rules for SurfAgent. One comment per account per pass, reply-first, reposts only when truly earned. Feels way more human already."
+
+## 16. Browser discipline for engagement passes
+
+During a live X session:
+- keep one healthy X tab by default
+- keep one intended active account per pass unless the task explicitly requires a switch
+- reuse the current feed or thread tab for adjacent actions
+- do not open the same post repeatedly unless the current tab is genuinely poisoned
+- if a fresh tab is required, hand off cleanly and close the stale one afterward
+- tab sprawl is a bug, not a harmless side effect
+
+## 17. Relationship to other docs
 
 Use alongside:
 - `browser-operations` for browser discipline

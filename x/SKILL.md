@@ -1,7 +1,7 @@
 ---
 name: x
 description: X platform skill for SurfAgent, covering route-aware workflows, proof rules, blockers, and when to use the X adapter over raw browser control.
-version: 1.0.0
+version: 1.1.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -48,31 +48,41 @@ It has:
 
 Important: a visible button or a completed click is not proof that a post, reply, or like actually landed.
 
+Also important: the wrong account doing the right action is still a failure.
+
 ## 4. Core X loop
 
 Default loop:
 1. confirm current X state
-2. open the intended route deliberately
-3. verify the route and surface are real
-4. perform one X-native action
-5. verify the visible result
-6. recover if X settled into the wrong state
+2. confirm the active account is the one you actually want
+3. prefer the current feed or thread surface if the target is already visible
+4. open the intended route deliberately only when needed
+5. verify the route and surface are real
+6. perform one X-native action
+7. verify the visible result
+8. recover if X settled into the wrong state
+
+Default rule: **feed-first, permalink-only-when-needed**.
 
 ## 5. Verified posting flow
 
 Known-good pattern:
+- verify the active account before opening compose
 - confirm logged-in X state
 - open compose explicitly, or confirm the active composer is real
 - inspect composer state before fill
 - create the post through the X adapter
+- if submit stays disabled, inspect composer diagnostics before guessing
 - verify the composer cleared, closed, or transitioned
 - verify the post text is visible in the expected surface, thread, or profile timeline
 
 For replies:
-- open the target post first
+- verify the active account before opening reply
+- if the target is already visible in the feed or current thread, reply there first
+- open the target post directly only when context or stability requires it
 - confirm the reply surface belongs to that post
 - submit the reply
-- verify the reply appears in the thread or visible reply context
+- verify the reply appears in the feed, thread, or visible reply context
 
 ## 6. Like and lightweight engagement rule
 
@@ -100,7 +110,22 @@ Bad proof:
 - no error was thrown
 - the agent assumes success because the page looked stable
 
-## 8. X adapter, when to use it
+## 8. Surface selection rules
+
+Prefer acting from the current surface when:
+- the target post is already visible in the feed
+- the feed item is stable and clearly identifiable
+- a like, reply, or repost can be verified in place
+
+Prefer opening a dedicated post route when:
+- thread context matters
+- the target item in the feed is ambiguous
+- hydration/rendering is incomplete
+- you need exact isolation for a higher-risk action
+
+Repeatedly reopening the same post URL is usually a smell, not a best practice.
+
+## 9. X adapter, when to use it
 
 Prefer the X adapter for:
 - opening X
@@ -116,6 +141,8 @@ Current X adapter verbs include:
 - `x_health_check`
 - `x_open`
 - `x_get_state`
+- `x_get_accounts`
+- `x_switch_account`
 - `x_open_home`
 - `x_open_profile`
 - `x_open_notifications`
@@ -135,12 +162,14 @@ Current X adapter verbs include:
 - `x_create_post`
 - `x_reply_to_post`
 - `x_like_post`
+- `x_repost_post`
+- `x_follow_profile`
 - `x_verify_text_visible`
 - `x_recover`
 - `x_research_topic`
 - `x_map_community`
 
-## 9. When raw browser control is still acceptable
+## 10. When raw browser control is still acceptable
 
 Use targeted evaluate or browser control when:
 - you need a narrow UI probe not covered by the adapter
@@ -152,12 +181,14 @@ Even then:
 - respect tab discipline
 - verify the visible result afterward
 
-## 10. Common X blockers
+## 11. Common X blockers
 
 Watch for:
+- acting from the wrong logged-in account
 - login walls and auth redirects
 - rate limits or "try again later" states
 - stale composer state
+- disabled Post/Reply buttons caused by character-limit overflow or unresolved compose state
 - action buttons that render before the route is settled
 - delayed thread hydration after opening a post
 - community posting surfaces that differ from the main composer
@@ -168,7 +199,7 @@ When blocked:
 - say whether it is retryable, recoverable with `x_recover`, or human-blocked
 - do not quietly lower the proof bar
 
-## 11. Token-efficiency rules for X
+## 12. Token-efficiency rules for X
 
 Prefer:
 - `x_get_state` over generic broad page inspection
@@ -181,7 +212,7 @@ Avoid:
 - repeated generic perception when the X adapter already knows the route
 - reading giant feeds when only one post or thread matters
 
-## 12. Minimal X checklist
+## 13. Minimal X checklist
 
 Before claiming an X task done, confirm:
 - correct account
@@ -190,8 +221,9 @@ Before claiming an X task done, confirm:
 - intended action executed
 - visible result verified
 - spare tabs cleaned up
+- feed-first behavior used unless there was a real reason not to
 
-## 13. Relationship to other docs
+## 14. Relationship to other docs
 
 Use alongside:
 - `browser-operations` for universal browser rules
