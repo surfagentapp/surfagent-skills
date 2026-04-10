@@ -1,7 +1,7 @@
 ---
 name: gmail
-description: Gmail platform skill for SurfAgent, covering mailbox checks, latest-thread opening, compose and reply task runners, tab hygiene, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
-version: 1.2.0
+description: Gmail platform skill for SurfAgent, covering mailbox checks, mailbox triage, latest-thread opening, compose and reply task runners, tab hygiene, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
+version: 1.3.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -18,6 +18,7 @@ This skill teaches agents how to work Gmail without guessing at selectors, lying
 
 - inbox, spam, sent, drafts, and outbox-style mailbox checks
 - deterministic latest-thread opening from a mailbox view
+- mailbox triage with urgency and action-signal scoring
 - compose flows
 - reply flows inside opened threads
 - draft filling
@@ -137,6 +138,7 @@ Deterministic Gmail task runners:
 - `gmail_reply_and_send_task`
 - `gmail_check_mailbox_task`
 - `gmail_open_latest_thread_task`
+- `gmail_triage_mailbox_task`
 
 ## 9. When raw browser control is still acceptable
 
@@ -166,6 +168,8 @@ Watch for:
 
 Current adapter rule: Gmail task runners should enforce tab hygiene and collapse duplicate Gmail tabs down to one working tab when they take control of the surface.
 
+Mailbox triage is heuristic and proof-oriented. It is for ranking visible threads and guiding the next action, not for pretending to be a full Gmail classification engine.
+
 When blocked:
 - restate the blocker plainly
 - say whether it is adapter-fixable, retryable, or human-blocked
@@ -190,8 +194,8 @@ Avoid:
 Before claiming a Gmail task done, confirm:
 - correct account
 - correct mailbox or thread
-- compose, reply, mailbox, or opened-thread surface is real
-- intended values or extracted rows are present
+- compose, reply, mailbox, opened-thread, or triage surface is real
+- intended values, extracted rows, or triage ranking are present
 - send or action actually happened
 - resulting message or state is visible afterward
 - duplicate Gmail tabs were not left behind by the workflow
