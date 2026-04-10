@@ -1,7 +1,7 @@
 ---
 name: browser-operations
 description: Core browser operations skill for SurfAgent and similar browser agents, covering tab discipline, perception-first execution, human-like driving, proof rules, and token-efficient fallback patterns.
-version: 1.0.0
+version: 1.1.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -95,6 +95,17 @@ Ask after every action:
 - did a blocker appear?
 - is the page now in a different mode?
 
+If the surface is visually dense, stateful, or contradictory, escalate to a screenshot or visual snapshot early.
+
+Examples where visual confirmation should happen fast:
+- account switchers
+- modals and drawers
+- multi-mode composers
+- community or group posting surfaces
+- pages where DOM extraction and visible state disagree
+
+Rule: do not keep arguing with partial extraction when one screenshot can settle the page state.
+
 ## 7. Autonomy layer
 
 The autonomy layer should be small and disciplined.
@@ -137,11 +148,12 @@ Avoid:
 
 If the ideal path fails:
 1. verify page state again
-2. retry with a more precise selector or ref
-3. switch to site adapter or MCP if available
-4. recover page state, refocus, dismiss blocker, or reload
-5. move to one fresh tab if the current one is poisoned
-6. escalate to a platform skill or ask for human input only when the blocker is real
+2. take a screenshot or visual snapshot if the surface is ambiguous
+3. retry with a more precise selector or ref
+4. switch to site adapter or MCP if available
+5. recover page state, refocus, dismiss blocker, or reload
+6. move to one fresh tab if the current one is poisoned
+7. escalate to a platform skill or ask for human input only when the blocker is real
 
 ## 11. Common blockers
 
@@ -206,6 +218,8 @@ Before claiming done, confirm:
 - action executed
 - visible result verified
 - spare tabs cleaned up
+
+If a page was complex enough to confuse state during the run, add a short note to the platform skill or state map afterward so the next agent does not have to rediscover it.
 
 ## 15. Output contract for agents
 

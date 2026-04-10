@@ -1,7 +1,7 @@
 ---
 name: x-engagement
 description: Growth-oriented X engagement skill for SurfAgent, covering founder-style replies, community participation, audience-building loops, and proof-aware engagement execution.
-version: 1.2.0
+version: 1.3.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -228,6 +228,12 @@ Use a deliberate loop:
 
 This beats waiting for the perfect post to fall into the timeline.
 
+For community participation:
+- verify the active account before joining or posting
+- prefer communities that are tightly aligned with the account's real niche
+- confirm the community audience selector before typing
+- verify the new post appears in the community feed after submit
+
 ### Per-pass selection rules
 
 Before replying, quickly check:
@@ -339,6 +345,8 @@ During a live X session:
 - do not open the same post repeatedly unless the current tab is genuinely poisoned
 - if a fresh tab is required, hand off cleanly and close the stale one afterward
 - tab sprawl is a bug, not a harmless side effect
+
+If account identity, community audience, or composer state is ambiguous, take a screenshot or visual snapshot early instead of pretending extraction is enough.
 
 ## 17. Relationship to other docs
 

@@ -1,7 +1,7 @@
 ---
 name: x
 description: X platform skill for SurfAgent, covering route-aware workflows, proof rules, blockers, and when to use the X adapter over raw browser control.
-version: 1.1.0
+version: 1.2.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -50,6 +50,8 @@ Important: a visible button or a completed click is not proof that a post, reply
 
 Also important: the wrong account doing the right action is still a failure.
 
+Also important: on complex X surfaces, visual state beats partial extraction. If the switcher, composer, or community page is ambiguous, use a screenshot or visual snapshot instead of guessing.
+
 ## 4. Core X loop
 
 Default loop:
@@ -73,6 +75,7 @@ Known-good pattern:
 - inspect composer state before fill
 - create the post through the X adapter
 - if submit stays disabled, inspect composer diagnostics before guessing
+- if text is visible but submit stays disabled, switch immediately to real keyboard-style input, not DOM-only insertion
 - verify the composer cleared, closed, or transitioned
 - verify the post text is visible in the expected surface, thread, or profile timeline
 
@@ -83,6 +86,13 @@ For replies:
 - confirm the reply surface belongs to that post
 - submit the reply
 - verify the reply appears in the feed, thread, or visible reply context
+
+For community posts:
+- verify the active account before joining or posting
+- verify the current community name and membership state
+- confirm the audience selector shows the intended community before typing
+- verify the composer accepted the text as real input before submit
+- after submit, confirm the post appears in the visible community feed under the correct account
 
 ## 6. Like and lightweight engagement rule
 
@@ -96,6 +106,13 @@ Do not claim success from only calling `x_like_post` without checking the result
 ## 7. Proof rules
 
 For X, success requires visible evidence tied to the route.
+
+Trust order when signals conflict:
+1. visible active account label and route
+2. screenshot or visual snapshot of the current X surface
+3. visible button state, composer state, and resulting feed/thread state
+4. targeted DOM extraction
+5. wrapper success strings
 
 Good proof usually includes:
 - expected route or modal is open
@@ -192,12 +209,15 @@ Watch for:
 - action buttons that render before the route is settled
 - delayed thread hydration after opening a post
 - community posting surfaces that differ from the main composer
+- partial switcher extraction that hides available accounts
+- text that appears in the composer but is not accepted as real typed input
 - poisoned or frozen tabs after retries
 
 When blocked:
 - name the blocker plainly
 - say whether it is retryable, recoverable with `x_recover`, or human-blocked
 - do not quietly lower the proof bar
+- if switcher or composer state is ambiguous, escalate to visual confirmation fast
 
 ## 12. Token-efficiency rules for X
 
@@ -223,10 +243,51 @@ Before claiming an X task done, confirm:
 - spare tabs cleaned up
 - feed-first behavior used unless there was a real reason not to
 
-## 14. Relationship to other docs
+Before claiming account switching done, confirm:
+- switcher was actually opened
+- intended account row was visible, ideally as a full user cell
+- sidebar account label changed afterward
+- destination route settled on a normal X surface
+
+## 14. Account switching and composer recovery patterns
+
+### Account switching
+
+Known-good sequence:
+1. inspect current active account from the sidebar first
+2. open the bottom-left account switcher deliberately
+3. if the menu contents are unclear, take a screenshot or visual snapshot
+4. prefer clicking the full target account row, not random nearby text
+5. verify the sidebar account label changed after the click
+6. verify the route landed on a normal X page like Home, not a stale modal state
+
+Do not conclude an account is unavailable from one weak extraction pass.
+A hidden or partially extracted menu is common on X.
+
+### Composer says text is there but Post is still disabled
+
+This is a real X failure mode.
+
+If the composer visibly contains text but submit is still disabled:
+1. check character count or remaining characters
+2. rule out overflow first
+3. assume DOM-only insertion may not have registered as real input
+4. switch to real keyboard-style interaction immediately
+5. re-check the enabled state before submitting
+
+Known-good fallback:
+- focus composer
+- select all
+- clear
+- type through the real input path
+- verify remaining character count or enabled Post button
+- only then submit
+
+## 15. Relationship to other docs
 
 Use alongside:
 - `browser-operations` for universal browser rules
 - `x-engagement` when the goal is audience growth, founder-style replies, and community participation
+- `X_STATE_MAP.md` for concrete switcher, community, and composer landmarks
 - SurfAgent skill for managed Chrome discipline
 - X adapter docs for the concrete MCP/tool surface
