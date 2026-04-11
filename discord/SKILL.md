@@ -1,7 +1,7 @@
 ---
 name: discord
-description: Discord platform skill for SurfAgent, covering route-aware state checks, extraction-first workflows, blockers, and when to use the Discord adapter over raw browser control.
-version: 1.0.0
+description: Discord platform skill for SurfAgent, covering route-aware state checks, extraction-first workflows, visual-first ambiguity handling, blockers, and when to use the Discord adapter over raw browser control.
+version: 1.1.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -23,17 +23,29 @@ This skill teaches agents how to work Discord without pretending the surface is 
 - blocker-aware workflow decisions
 - deciding when to use the Discord adapter instead of raw browser control
 
-## 2. Tool preference
+## 2. Default operating mode
+
+Discord is a **visual-first hybrid** surface.
+
+That means:
+- use Discord adapter state and extraction tools first
+- trust screenshots and visible surface classification quickly when the route or pane is ambiguous
+- avoid acting from weak partial extraction when the screen itself answers the question faster
+
+Visual-first does **not** mean doing everything by raw clicking. It means visible guild, channel, thread, gate, and composer state often settles ambiguity better than clever selector theory.
+
+## 3. Tool preference
 
 Use this order:
 1. Discord adapter state tools
 2. Discord adapter extraction tools
-3. targeted browser evaluation only when needed
-4. raw generic browser actions as fallback
+3. screenshot or visual confirmation when the surface is ambiguous
+4. targeted browser evaluation only when needed
+5. raw generic browser actions as fallback
 
 Discord punishes selector guessing. Use site-aware tools first.
 
-## 3. Discord truths that matter
+## 4. Discord truths that matter
 
 Discord is a dynamic SPA with moving surface state.
 
@@ -45,7 +57,7 @@ It has:
 
 Important: login or verification state is a real outcome, not an error to hand-wave away.
 
-## 4. Core Discord loop
+## 5. Core Discord loop
 
 Default loop:
 1. confirm Discord state
@@ -57,7 +69,7 @@ Default loop:
 
 Do not blast clicks into Discord because the tab "looks about right".
 
-## 5. Proof rules
+## 6. Proof rules
 
 For Discord, success usually requires:
 1. correct server/channel/thread surface is visible
@@ -65,13 +77,19 @@ For Discord, success usually requires:
 3. extracted state matches the visible UI
 4. post-action state visibly changed in the expected way
 
+Trust order when signals conflict:
+1. visible guild/channel/thread surface and screenshot
+2. visible composer or gate state
+3. Discord adapter extraction/state
+4. click receipts and generic success strings
+
 Do not claim success from only:
 - a selector match
 - a click returning ok
 - the absence of an error
 - stale content that may belong to a different route
 
-## 6. When to use the Discord adapter
+## 7. When to use the Discord adapter
 
 Prefer the Discord adapter for:
 - opening Discord in the managed browser
@@ -86,7 +104,7 @@ Current Discord adapter strengths:
 - read-first extraction
 - honest blocker reporting
 
-## 7. When raw browser control is acceptable
+## 8. When raw browser control is acceptable
 
 Use targeted browser control only when:
 - you need a narrow probe not covered by the adapter
@@ -98,7 +116,7 @@ Even then:
 - re-check route state before acting
 - stop if the surface changes under you
 
-## 8. Common Discord blockers
+## 9. Common Discord blockers
 
 Watch for:
 - login screen
@@ -113,8 +131,9 @@ When blocked:
 - name the blocker plainly
 - say whether it is retryable, adapter-fixable, or human-blocked
 - do not fake progress on a gated surface
+- if route, gate, or composer state feels contradictory, escalate to a screenshot early
 
-## 9. Token-efficiency rules for Discord
+## 10. Token-efficiency rules for Discord
 
 Prefer:
 - state checks over giant DOM reads
@@ -127,7 +146,7 @@ Avoid:
 - repeated full-page reads on unchanged state
 - selector fishing across the entire Discord shell
 
-## 10. Minimal Discord checklist
+## 11. Minimal Discord checklist
 
 Before claiming a Discord task done, confirm:
 - correct account or logged-out state
@@ -136,7 +155,7 @@ Before claiming a Discord task done, confirm:
 - intended state extracted or action completed
 - visible result verified afterward
 
-## 11. Relationship to other docs
+## 12. Relationship to other docs
 
 Use alongside:
 - `browser-operations` for universal browser rules

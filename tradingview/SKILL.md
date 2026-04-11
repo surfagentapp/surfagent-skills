@@ -1,7 +1,7 @@
 ---
 name: tradingview
-description: TradingView platform skill for SurfAgent, covering chart workflows, proof rules, blockers, and when to use the TradingView adapter over generic browser control.
-version: 1.0.0
+description: TradingView platform skill for SurfAgent, covering chart workflows, state-first operating rules, proof rules, blockers, and when to use the TradingView adapter over generic browser control.
+version: 1.1.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -27,7 +27,18 @@ This skill teaches agents how to work TradingView without treating a live chart 
 - watchlist reads and updates
 - deciding when to use the TradingView adapter instead of generic browser control
 
-## 2. Tool preference
+## 2. Default operating mode
+
+TradingView is a **state-first** surface.
+
+That means:
+- trust chart state, quote, OHLCV, indicator, drawing, and Pine outputs before screenshots
+- use visual confirmation to prove rendered chart appearance, alert dialogs, or premium-gate behavior
+- do not turn a structured chart problem into a screenshot-only guessing game
+
+Visual-first is useful on TradingView only when the task is explicitly about what the chart or dialog looks like.
+
+## 3. Tool preference
 
 Use this order:
 1. TradingView adapter state/data tools
@@ -38,7 +49,7 @@ Use this order:
 
 Verdict: if the task is about chart state, market data, indicators, Pine, alerts, or drawings, the TradingView adapter should usually win.
 
-## 3. TradingView truths that matter
+## 4. TradingView truths that matter
 
 TradingView is not a normal DOM-first app.
 
@@ -51,7 +62,7 @@ It has:
 
 Important: clicking around the UI is usually the dumbest path. If the adapter can read or set chart state directly, use it.
 
-## 4. Core TradingView loop
+## 5. Core TradingView loop
 
 Default loop:
 1. confirm TradingView is open and chart-ready
@@ -60,7 +71,7 @@ Default loop:
 4. verify the changed state or rendered chart
 5. continue only if the chart settled into the expected mode
 
-## 5. Verified chart workflow
+## 6. Verified chart workflow
 
 Known-good pattern:
 - run `tv_health_check`
@@ -72,9 +83,15 @@ Known-good pattern:
 
 Do not claim a chart change succeeded from navigation alone.
 
-## 6. Proof rules
+## 7. Proof rules
 
 For TradingView, success requires evidence from the right layer.
+
+Trust order when signals conflict:
+1. adapter chart/data state
+2. adapter action receipts plus re-read state
+3. visual chart or dialog proof
+4. generic browser click success strings
 
 1. **state proof**
    - `tv_health_check` says TradingView is open and chart-ready
@@ -98,7 +115,7 @@ Bad proof:
 - a toolbar button existed
 - no exception was thrown
 
-## 7. When to use the TradingView adapter
+## 8. When to use the TradingView adapter
 
 Prefer the TradingView adapter for:
 - opening TradingView
@@ -138,7 +155,7 @@ Current adapter verbs include:
 - `tv_watchlist`
 - `tv_watchlist_add`
 
-## 8. When generic browser control is still acceptable
+## 9. When generic browser control is still acceptable
 
 Use targeted browser control when:
 - you need a one-off UI probe the adapter does not expose
@@ -151,7 +168,7 @@ Even then:
 - do not rediscover chart state from scratch if adapter state exists
 - return to adapter-level proof after the UI step when possible
 
-## 9. Chart workflows
+## 10. Chart workflows
 
 ### Symbol/timeframe/chart type
 Use:
@@ -172,7 +189,7 @@ Use:
 2. `tv_screenshot` for browser render proof
 3. `tv_export_image` when native export quality matters and the flow is supported
 
-## 10. Pine workflows
+## 11. Pine workflows
 
 Use the adapter, not raw typing, for Pine work.
 
@@ -189,7 +206,7 @@ Proof standard:
 - error state captured
 - if successful, resulting indicator/study is visible in chart state or chart render
 
-## 11. Alerts and drawings
+## 12. Alerts and drawings
 
 For alerts:
 - use `tv_alert_list` to inspect current state
@@ -202,7 +219,7 @@ For drawings:
 - verify with `tv_drawings_list`
 - add screenshot proof when line placement matters
 
-## 12. Common blockers
+## 13. Common blockers
 
 Watch for:
 - TradingView tab not open
@@ -218,6 +235,7 @@ Watch for:
 When blocked:
 - name the blocker plainly
 - say whether it is retryable, adapter-gap, account-tier-limited, or human-blocked
+- if the issue is visual-only, use screenshot or perception to settle it instead of abandoning the stronger state layer
 - do not quietly downgrade the proof bar
 
 ## 13. Token-efficiency rules for TradingView

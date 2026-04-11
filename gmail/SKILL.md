@@ -1,7 +1,7 @@
 ---
 name: gmail
 description: Gmail platform skill for SurfAgent, covering mailbox checks, mailbox triage, latest-thread opening, compose and reply task runners, tab hygiene, sent-message verification, proof rules, and when to use the Gmail adapter over raw browser control.
-version: 1.3.0
+version: 1.4.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -27,7 +27,16 @@ This skill teaches agents how to work Gmail without guessing at selectors, lying
 - Gmail-specific blockers and recoveries
 - deciding when to use the Gmail adapter instead of raw browser control
 
-## 2. Tool preference
+## 2. Default operating mode
+
+Gmail is a **state-first hybrid** surface.
+
+That means:
+- default to deterministic task runners and Gmail-native state tools
+- use visual proof to confirm send/render outcomes, not to replace stronger mailbox or composer state
+- do not turn a repeatable mailbox or reply task into browser wandering just because a screenshot is available
+
+## 3. Tool preference
 
 Use this order:
 1. Gmail deterministic task runners
@@ -38,7 +47,7 @@ Use this order:
 
 Prefer Gmail-native verbs over rediscovering Gmail from scratch every run.
 
-## 3. Gmail truths that matter
+## 4. Gmail truths that matter
 
 Gmail is not a normal static form page.
 
@@ -50,7 +59,7 @@ It has:
 
 Important: Gmail enforces Trusted Types in places, so direct `innerHTML` approaches are unreliable for rich content workflows.
 
-## 4. Core Gmail loop
+## 5. Core Gmail loop
 
 Default loop:
 1. confirm current Gmail state or mailbox
@@ -61,7 +70,7 @@ Default loop:
 6. send only when requested
 7. verify the visible result with mailbox/thread proof
 
-## 5. Verified compose flow
+## 6. Verified compose flow
 
 Known-good pattern:
 - confirm inbox or current mailbox state first
@@ -74,7 +83,7 @@ Known-good pattern:
 - open Sent Mail
 - verify the sent message exists and the content renders as expected
 
-## 6. Proof rules
+## 7. Proof rules
 
 For Gmail, success requires all three layers:
 
@@ -98,7 +107,7 @@ Do not claim success from only:
 - lack of an error
 - draft text being present before send
 
-## 7. Rich formatting rule
+## 8. Rich formatting rule
 
 If the task cares about formatting, proof must come from rendered output, not only compose state.
 
@@ -107,7 +116,7 @@ That means:
 - use screenshot or render inspection when formatting matters
 - do not assume editor formatting survived the send path
 
-## 8. Gmail adapter, when to use it
+## 9. Gmail adapter, when to use it
 
 Prefer the Gmail adapter for:
 - opening Gmail
@@ -140,7 +149,7 @@ Deterministic Gmail task runners:
 - `gmail_open_latest_thread_task`
 - `gmail_triage_mailbox_task`
 
-## 9. When raw browser control is still acceptable
+## 10. When raw browser control is still acceptable
 
 Use targeted evaluate or browser control when:
 - you need render-only verification not yet wrapped by the adapter
@@ -153,7 +162,7 @@ Even then:
 - inspect only the relevant surface
 - verify the visible result
 
-## 10. Common Gmail blockers
+## 11. Common Gmail blockers
 
 Watch for:
 - compose dialog not actually open
@@ -175,7 +184,7 @@ When blocked:
 - say whether it is adapter-fixable, retryable, or human-blocked
 - do not quietly downgrade the proof standard
 
-## 11. Token-efficiency rules for Gmail
+## 12. Token-efficiency rules for Gmail
 
 Prefer:
 - task runners over hand-built action chains
@@ -189,7 +198,7 @@ Avoid:
 - repeated generic perception when Gmail-specific state tools exist
 - large reads of the inbox when only one draft or sent result matters
 
-## 12. Minimal Gmail checklist
+## 13. Minimal Gmail checklist
 
 Before claiming a Gmail task done, confirm:
 - correct account
@@ -200,7 +209,7 @@ Before claiming a Gmail task done, confirm:
 - resulting message or state is visible afterward
 - duplicate Gmail tabs were not left behind by the workflow
 
-## 13. Relationship to other docs
+## 14. Relationship to other docs
 
 Use alongside:
 - `browser-operations` for the universal browser rules

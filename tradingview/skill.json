@@ -1,8 +1,8 @@
 {
   "name": "tradingview",
-  "version": "1.0.0",
-  "description": "TradingView platform skill for SurfAgent, covering chart workflows, proof rules, blockers, and when to use the TradingView adapter over generic browser control.",
+  "version": "1.1.0",
+  "description": "TradingView platform skill for SurfAgent, covering chart workflows, state-first operating rules, proof rules, blockers, and when to use the TradingView adapter over generic browser control.",
   "author": "MoonstoneLabs",
-  "keywords": ["tradingview", "surfagent", "charts", "automation", "mcp", "pine-script"],
+  "keywords": ["tradingview", "surfagent", "charts", "automation", "mcp", "pine-script", "state-first"],
   "files": ["SKILL.md"]
 }

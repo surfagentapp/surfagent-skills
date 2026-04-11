@@ -1,7 +1,7 @@
 ---
 name: browser-operations
-description: Core browser operations skill for SurfAgent and similar browser agents, covering tab discipline, perception-first execution, human-like driving, proof rules, and token-efficient fallback patterns.
-version: 1.1.0
+description: Core browser operations skill for SurfAgent and similar browser agents, covering tab discipline, perception-first execution, human-like driving, proof rules, token-efficient fallback patterns, and platform-by-platform operating mode selection.
+version: 1.2.0
 metadata:
   openclaw:
     homepage: https://surfagent.app
@@ -28,7 +28,30 @@ Use this skill for:
 
 Use a platform skill after this one when you are on a known site like Gmail, X, Discord, or GitHub.
 
-## 2. Non-negotiables
+## 2. Platform operating matrix
+
+Visual-first is not a religion. Pick the operating mode that fits the surface.
+
+### Default modes by platform
+
+| Platform | Default mode | Why |
+| --- | --- | --- |
+| X | visual-first hybrid | Visible account, composer, thread, and post state often beats partial extraction |
+| Telegram Web | visual-first hybrid | Live chat state is easier to trust on screen than through clever route tricks |
+| Discord | visual-first hybrid | SPA routing, gates, and composer state drift make screenshots and visible surface checks important |
+| Gmail | state-first hybrid | Deterministic task runners and mailbox/composer state are stronger, then use visual proof for send/render confirmation |
+| TradingView | state-first | Chart state, symbols, intervals, indicators, and drawings are better read from adapter/state tools than from screenshots alone |
+
+### How to choose fast
+
+- **API-first** when a real API or strong native state layer exists
+- **task-runner/state-first** when the UI is repeatable and the adapter already knows the surface
+- **visual-first** when the page is hydration-heavy, account-sensitive, or visibly more truthful than extraction
+- **raw browser control** only as the fallback or escape hatch
+
+Rule: if the important truth is already visible on screen, use that. If the important truth lives in structured state, use that instead.
+
+## 3. Non-negotiables
 
 1. One active work tab per target site unless a second tab is clearly justified.
 2. Reuse a healthy tab before opening a new one.
@@ -38,7 +61,7 @@ Use a platform skill after this one when you are on a known site like Gmail, X, 
 6. Do not claim success from an attempted click or type alone.
 7. If retries create tab sprawl, stop and clean up before continuing.
 
-## 3. Tool selection ladder
+## 4. Tool selection ladder
 
 Default order:
 1. perception or state layer first
@@ -51,7 +74,7 @@ Interpretation:
 - Use site-specific abstractions when they reduce error rate or token burn.
 - Fall back to raw browser control only when the higher-level tools are missing or insufficient.
 
-## 4. Browser hygiene
+## 5. Browser hygiene
 
 Before work:
 - inspect open tabs
@@ -67,7 +90,7 @@ After work:
 - close throwaway tabs
 - leave the browser in a clean, explainable state
 
-## 5. Tab hygiene
+## 6. Tab hygiene
 
 Healthy pattern:
 - one site, one active tab
@@ -80,7 +103,7 @@ Unhealthy pattern:
 
 If tab state is unclear, stop and re-enumerate before acting.
 
-## 6. Perception-first loop
+## 7. Perception-first loop
 
 Use this loop by default:
 1. perceive or inspect state
@@ -106,7 +129,7 @@ Examples where visual confirmation should happen fast:
 
 Rule: do not keep arguing with partial extraction when one screenshot can settle the page state.
 
-## 7. Autonomy layer
+## 8. Autonomy layer
 
 The autonomy layer should be small and disciplined.
 
@@ -118,7 +141,7 @@ Use short plan-act-verify cycles:
 
 Do not queue five blind actions in a row on a dynamic site.
 
-## 8. Human-like driving
+## 9. Human-like driving
 
 Drive like a careful operator, not a broken macro:
 - prefer deliberate clicks over frantic retries
@@ -129,7 +152,7 @@ Drive like a careful operator, not a broken macro:
 
 Human-like does not mean fake random noise. It means paced, state-aware interaction.
 
-## 9. Token-efficiency rules
+## 10. Token-efficiency rules
 
 Always prefer:
 - structured state over full DOM dumps
@@ -144,7 +167,7 @@ Avoid:
 - re-reading unchanged screens
 - broad selector fishing when the page can be classified first
 
-## 10. Fallback ladder
+## 11. Fallback ladder
 
 If the ideal path fails:
 1. verify page state again
@@ -155,7 +178,7 @@ If the ideal path fails:
 6. move to one fresh tab if the current one is poisoned
 7. escalate to a platform skill or ask for human input only when the blocker is real
 
-## 11. Common blockers
+## 12. Common blockers
 
 Watch for:
 - cookie banners
@@ -171,7 +194,7 @@ For each blocker:
 - confirm it is real
 - say whether it is auto-resolvable, retryable, or human-blocked
 
-## 12. Proof rules
+## 13. Proof rules
 
 Success requires visible evidence.
 
@@ -194,7 +217,7 @@ Bad proof:
 - no error was thrown
 - assistant assumes the action worked
 
-## 13. When to use platform skills
+## 14. When to use platform skills
 
 Use a platform skill when the site has:
 - known brittle selectors
@@ -206,10 +229,11 @@ Use a platform skill when the site has:
 Priority first set:
 - Gmail
 - X/Twitter
+- Telegram Web
 - Discord
-- GitHub
+- TradingView
 
-## 14. Minimal operating checklist
+## 15. Minimal operating checklist
 
 Before claiming done, confirm:
 - right tab
@@ -221,7 +245,7 @@ Before claiming done, confirm:
 
 If a page was complex enough to confuse state during the run, add a short note to the platform skill or state map afterward so the next agent does not have to rediscover it.
 
-## 15. Output contract for agents
+## 16. Output contract for agents
 
 When reporting progress:
 - say what changed, not what you hoped would happen
@@ -229,7 +253,7 @@ When reporting progress:
 - distinguish attempted from verified
 - keep the summary short and evidence-based
 
-## 16. Relationship to other docs
+## 17. Relationship to other docs
 
 This is the universal browser brain.
 
